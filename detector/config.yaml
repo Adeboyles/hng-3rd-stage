@@ -1,0 +1,30 @@
+# Slack
+slack_webhook: "https://hooks.slack.com/services/YOUR/WEBHOOK/URL"
+
+# Log paths
+log_path: "/var/log/nginx/hng-access.log"
+audit_log_path: "/var/log/detector/audit.log"
+
+# Dashboard
+dashboard_port: 8080
+
+# Sliding window (seconds)
+window_seconds: 60
+
+# Baseline
+baseline_window_minutes: 30
+baseline_recalc_interval: 60   # recalculate every 60 seconds
+min_baseline_samples: 3       # minimum samples before baseline is trusted
+baseline_floor_rps: 1.0        # never let mean drop below this
+
+# Detection thresholds
+z_score_threshold: 0.5
+rate_multiplier: 1.5             # flag if rate > 5x mean
+error_rate_multiplier: 3       # tighten thresholds if 4xx/5xx is 3x baseline
+
+# Unban backoff schedule (seconds)
+# 10 min → 30 min → 2 hours → permanent
+unban_schedule:
+  - 600
+  - 1800
+  - 7200

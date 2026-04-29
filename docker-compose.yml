@@ -1,0 +1,41 @@
+volumes:
+  HNG-nginx-logs:
+    name: HNG-nginx-logs
+  nextcloud-data:
+
+services:
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - HNG-nginx-logs:/var/log/nginx
+    depends_on:
+      - nextcloud
+    restart: unless-stopped
+
+  nextcloud:
+    image: kefaslungu/hng-nextcloud
+    volumes:
+      - nextcloud-data:/var/www/html
+      - HNG-nginx-logs:/var/log/nginx:ro
+      - /var/log/detector:/var/log/detector
+    restart: unless-stopped
+    environment:
+      - NEXTCLOUD_TRUSTED_DOMAINS=54.172.183.212
+
+  detector:
+    build:
+      context: ./detector
+      dockerfile: Dockerfile
+    volumes:
+      - HNG-nginx-logs:/var/log/nginx:ro
+      - /var/log/detector:/var/log/detector
+    network_mode: host
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+    depends_on:
+      - nginx
