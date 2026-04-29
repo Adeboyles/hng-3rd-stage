@@ -6,7 +6,7 @@
 - **GitHub Repo:** https://github.com/Adeboyles/hng-3rd-stage.git
 
 ## Blog Post
-
+YOUR_BLOG_URL=https://medium.com/@oluwoleadeboye3/how-i-built-a-real-time-ddos-detection-engine-from-scratch-b608c023f259
 
 ## Language Choice
 Python — chosen for its readable syntax, rich standard library, and ease of
